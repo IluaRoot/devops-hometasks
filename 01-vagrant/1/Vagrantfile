@@ -1,0 +1,21 @@
+Vagrant.configure("2") do |config|
+config.vm.box = "generic/debian11"
+config.vm.define "deb1.vm"
+# Network settings
+# config.vm.network "private_network", ip: "192.168.56.10"
+
+# Port forwading to host machine
+config.vm.network "forwarded_port", guest: 8080, host: 8080, host_ip: "127.0.0.1"
+config.vm.network "forwarded_port", guest: 8081, host: 8081, host_ip: "127.0.0.1"
+
+config.vm.provider "virtualbox" do |vb|
+    vb.name = "deb1.vm"
+    # Customize the amount of memory on the VM:
+    vb.memory = "1024"
+    config.vm.synced_folder "./files/", "/home/vagrant/files"
+end
+
+config.vm.provision "shell", path: "prov.sh"
+#config.vm.provision "file", run: "always", source: "./files/", destination: "~/"
+
+end
