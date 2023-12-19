@@ -44,6 +44,9 @@ else
     cp /home/vagrant/files/index.html /var/www/vag121/
 fi
 
+echo "Files owner"
+chown -R www-data:www-data /var/www/*
+
 echo "reload nginx"
 nginx -s reload
 

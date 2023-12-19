@@ -9,8 +9,8 @@ config.vm.define "deb2" do |deb2|
         vb.customize ["modifyvm", :id, "--memory", "1024"]
       end
     
-    deb2.vm.synced_folder "./files/", "/home/vagrant/files"
-    deb2.vm.network "public_network"
+    deb2.vm.synced_folder "./files/", "/home/vagrant/files", disabled: false
+    deb2.vm.network "private_network", type: "dhcp"
     deb2.vm.provision "shell", inline: "echo provision deb2"
     deb2.vm.provision "shell", path: "deb2_prov.sh"
     end
@@ -24,8 +24,8 @@ config.vm.define "deb3" do |deb3|
         vb.customize ["modifyvm", :id, "--memory", "2048"]
       end
 
-    deb3.vm.synced_folder "./files/", "/home/vagrant/files"
-    deb3.vm.network "public_network"
+    deb3.vm.synced_folder "./files/", "/home/vagrant/files", disabled: false
+    deb3.vm.network "private_network", type: "dhcp"
     deb3.vm.provision "shell", inline: "echo provision deb3"
     deb3.vm.provision "shell", path: "deb3_prov.sh"
     end
