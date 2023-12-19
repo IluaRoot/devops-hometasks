@@ -45,7 +45,7 @@ else
 fi
 
 echo "Files owner"
-chown -R www-data:www-data /var/www/*
+chown -R www-data:www-data /var/www/
 
 echo "reload nginx"
 nginx -s reload

@@ -22,8 +22,9 @@ echo "copy files"
 cp /home/vagrant/files/index.html /var/www/vag11/
 cp /home/vagrant/files/index.php /var/www/vag12/
 
-chown -R www-data:www-data /var/www/*
+chown -R www-data:www-data /var/www/
 cp /home/vagrant/files/*.conf /etc/nginx/sites-available/
+
 
 ln /etc/nginx/sites-available/*.conf /etc/nginx/sites-enabled/
 
