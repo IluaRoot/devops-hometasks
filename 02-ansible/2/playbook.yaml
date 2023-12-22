@@ -1,0 +1,92 @@
+---
+- name: Preparations
+  hosts: all
+  become: yes
+  tasks:
+  - name: Install Nginx php on all hosts
+    apt:
+      update_cache: true
+      name: "{{ item }}"
+      state: present
+    loop:
+      - "{{ install }}"    
+  - name: Create web server dirs
+    file:
+      path: "{{ path_to_web }}"
+      state: directory
+      recurse: yes
+      owner: www-data
+      group: www-data
+      mode: '0755'
+  - name: Copy Static Site to Static22
+    copy:
+      src: /vagrant_data/index.html
+      dest: "{{ path_to_web }}"
+      owner: www-data
+      group: www-data
+      mode: '0644'
+    when: srv_name == 'static22'
+  - name: Copy Dyn Site to Dyn22
+    copy:
+      src: /vagrant_data/index.php
+      dest: "{{ path_to_web }}"
+      owner: www-data
+      group: www-data
+      mode: '0644'
+    when: srv_name == 'dyn22'
+
+- name: Static Host
+  hosts: static
+  become: yes
+  tasks:
+  - name: Copy template conf
+    template:
+      dest: "/etc/nginx/sites-available/site.conf"
+      src: templates/site.conf.j2 
+  - name: Enable conf file Static22
+    file:
+      src: /etc/nginx/sites-available/site.conf
+      dest: /etc/nginx/sites-enabled/site.conf
+      state: link
+
+- name: Dyn Host
+  hosts: dyn
+  become: yes
+  tasks:
+  - name: Copy template conf dyn
+    template:
+      dest: "/etc/nginx/sites-available/sitedyn.conf"
+      src: templates/site.conf.j2
+  - name: Enable conf file Dyb22
+    file:
+      src: /etc/nginx/sites-available/sitedyn.conf
+      dest: /etc/nginx/sites-enabled/sitedyn.conf
+      state: link
+
+- name: Proxy Host
+  hosts: proxy
+  become: yes
+  tasks:
+  - name: Copy conf proxy
+    copy:
+      dest: "/etc/nginx/sites-available/proxy.conf"
+      src: "/vagrant_data/proxy.conf"
+  - name: Enable conf file proxy
+    file:
+      src: /etc/nginx/sites-available/proxy.conf
+      dest: /etc/nginx/sites-enabled/proxy.conf
+      state: link
+
+- name: Post tasks
+  hosts: all
+  become: yes
+  tasks:
+  - name: Disable default Site
+    file:
+      path: /etc/nginx/sites-enabled/default
+      state: absent
+  - name: Reload Nginx
+    service:
+      name: nginx
+      state: restarted    
+

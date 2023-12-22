@@ -1,0 +1,30 @@
+[static]
+192.168.58.4 
+
+[static:vars]
+install=["nginx"]
+srv_name="static22"
+path_to_web="/var/www/static22"
+
+[dyn]
+192.168.58.5
+
+[dyn:vars]
+install=["nginx", "php7.4-fpm"]
+srv_name="dyn22"
+path_to_web="/var/www/dyn22"
+
+[proxy]
+192.168.58.6
+
+[proxy:vars]
+install=["nginx"]
+srv_name="proxy"
+path_to_web="/var/www/proxy"
+
+[all:vars]
+ansible_connection=ssh
+ansible_user=vagrant
+ansible_password=vagrant
+ansible_ssh_common_args='-o StrictHostKeyChecking=no'
+nginx_files=["site.conf", "sitedyn.conf", "proxy.conf"]

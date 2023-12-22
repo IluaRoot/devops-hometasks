@@ -1,0 +1,94 @@
+---
+- name: Setting up web servers
+  hosts: all
+  become: yes 
+  tasks:
+
+  - name: Install Nginx
+    apt: 
+      name: "{{ item }}"
+      update_cache: true    
+    loop:
+     - nginx
+     - php7.4-fpm  
+
+  - name: Starting Nginx
+    service:
+      name: nginx
+      state: started
+
+  - name: Importing Nginx conf
+    copy:
+      content: |
+        server {
+        listen 8080;
+        server_name vagrant021task;
+        root /var/www/vag21;		
+        location / {
+           autoindex on;
+           index index.htm index.html;
+           }
+        }
+      dest: "/etc/nginx/sites-available/vag221.conf"
+
+  - name: Importing Nginx conf
+    copy:
+      content: |
+        server {
+        listen 8081;
+        server_name vagrant022task;
+        root /var/www/vag22;
+        location / {
+             try_files $uri $uri/ /index.php?$query_string;
+             index index.php; }
+                   location ~* \.php$ {
+                   try_files $uri = 404;
+                   fastcgi_split_path_info ^(.+\.php)(/.+)$;
+                   fastcgi_pass unix:/var/run/php/php7.4-fpm.sock;
+                   fastcgi_index index.php;
+                   fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+                   include fastcgi_params; 
+                  }
+        }
+      dest: "/etc/nginx/sites-available/vag222.conf"
+  
+  - name: making direcroty
+    file:
+      path: "{{ item }}"
+      state: directory
+      owner: 'www-data'
+      group: www-data
+    loop:
+      - /var/www/vag21
+      - /var/www/vag22
+
+  - name: Copy index.html
+    copy:
+      src: "{{ item.src }}"
+      dest: "{{ item.dest }}"
+      owner: www-data
+      group: www-data
+      mode: '0644'
+    loop:
+      - src: /vagrant_data/index.html
+        dest: /var/www/vag21/index.html
+      - src: /vagrant_data/index.php
+        dest: /var/www/vag22/index.php
+  
+  - name: link conf file
+    file: 
+      src: "{{ item.src }}"
+      dest: "{{ item.dest }}"
+      state: link
+    loop:
+      - src: /etc/nginx/sites-available/vag221.conf
+        dest: /etc/nginx/sites-enabled/vag221.conf
+      - src: /etc/nginx/sites-available/vag222.conf
+        dest: /etc/nginx/sites-enabled/vag222.conf
+
+  - name: Reload Nginx
+    service:
+      name: nginx
+      state: restarted      
+
+    
