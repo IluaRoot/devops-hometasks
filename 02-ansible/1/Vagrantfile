@@ -10,6 +10,8 @@ Vagrant.configure("2") do |config|
 
   config.vm.define "task2_1" do |task|
     task.vm.network "private_network", ip: "192.168.57.4"
+    task.vm.network "forwarded_port", guest: 8080, host: 8080, host_ip: "127.0.0.1"
+    task.vm.network "forwarded_port", guest: 8081, host: 8081, host_ip: "127.0.0.1"
     task.vm.provision "shell", inline: <<-SHELL
         apt-get update
         apt-get install -y sshpass ansible vim
