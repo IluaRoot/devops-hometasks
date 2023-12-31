@@ -1,7 +1,7 @@
 ---
 - name: Preparations
   hosts: all
-  become: yes
+  become: true
   tasks:
   - name: Install Nginx php on all hosts
     apt:
@@ -37,7 +37,7 @@
 
 - name: Static Host
   hosts: static
-  become: yes
+  become: true
   tasks:
   - name: Copy template conf
     template:
@@ -48,16 +48,23 @@
       src: /etc/nginx/sites-available/site.conf
       dest: /etc/nginx/sites-enabled/site.conf
       state: link
-
+    notify:
+      - Restart nginx
+  handlers:
+  - name: Restart nginx
+    service:
+      name: nginx
+      state: reloaded
+    become: true
 - name: Dyn Host
   hosts: dyn
-  become: yes
+  become: true
   tasks:
   - name: Copy template conf dyn
     template:
       dest: "/etc/nginx/sites-available/sitedyn.conf"
       src: templates/site.conf.j2
-  - name: Enable conf file Dyb22
+  - name: Enable conf file Dyn22
     file:
       src: /etc/nginx/sites-available/sitedyn.conf
       dest: /etc/nginx/sites-enabled/sitedyn.conf
@@ -65,7 +72,7 @@
 
 - name: Proxy Host
   hosts: proxy
-  become: yes
+  become: true
   tasks:
   - name: Copy conf proxy
     copy:
@@ -79,7 +86,7 @@
 
 - name: Post tasks
   hosts: all
-  become: yes
+  become: true
   tasks:
   - name: Disable default Site
     file:
@@ -88,5 +95,4 @@
   - name: Reload Nginx
     service:
       name: nginx
-      state: restarted    
-
+      state: restarted
