@@ -13,7 +13,7 @@ Vagrant.configure("2") do |config|
     task22.vm.hostname = "static22"
     task22.vm.provision "shell", inline: <<-SHELL
           apt update
-          apt install -y sshpass ansible
+          apt install -y sshpass
     SHELL
   end
 
@@ -22,7 +22,7 @@ Vagrant.configure("2") do |config|
     task22.vm.hostname = "dyn22"
     task22.vm.provision "shell", inline: <<-SHELL
     apt update
-    apt install -y sshpass ansible
+    apt install -y sshpass
     SHELL
   end
 
@@ -32,8 +32,11 @@ Vagrant.configure("2") do |config|
     task22.vm.provision "shell", inline: <<-SHELL
     apt update
     apt install -y sshpass ansible
-    ansible-playbook -i /vagrant_data/inventory /vagrant_data/playbook.yaml
     SHELL
+    task22.vm.provision "ansible" do |ansible|
+      ansible.limit = "static dyn proxy"
+      ansible.inventory_path = "./"
+      ansible.playbook = "./playbook.yaml"
+    end
   end
-
 end

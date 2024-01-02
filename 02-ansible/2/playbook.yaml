@@ -9,7 +9,7 @@
       name: "{{ item }}"
       state: present
     loop:
-      - "{{ install }}"    
+      - "{{ install }}"
   - name: Create web server dirs
     file:
       path: "{{ path_to_web }}"
@@ -25,6 +25,7 @@
       owner: www-data
       group: www-data
       mode: '0644'
+      remote_src: yes
     when: srv_name == 'static22'
   - name: Copy Dyn Site to Dyn22
     copy:
@@ -33,6 +34,7 @@
       owner: www-data
       group: www-data
       mode: '0644'
+      remote_src: yes
     when: srv_name == 'dyn22'
 
 - name: Static Host
@@ -42,7 +44,8 @@
   - name: Copy template conf
     template:
       dest: "/etc/nginx/sites-available/site.conf"
-      src: templates/site.conf.j2 
+      src: templates/site.conf.j2
+      remote_src: no
   - name: Enable conf file Static22
     file:
       src: /etc/nginx/sites-available/site.conf
@@ -64,6 +67,7 @@
     template:
       dest: "/etc/nginx/sites-available/sitedyn.conf"
       src: templates/site.conf.j2
+      remote_src: no
   - name: Enable conf file Dyn22
     file:
       src: /etc/nginx/sites-available/sitedyn.conf
@@ -78,6 +82,7 @@
     copy:
       dest: "/etc/nginx/sites-available/proxy.conf"
       src: "/vagrant_data/proxy.conf"
+      remote_src: yes
   - name: Enable conf file proxy
     file:
       src: /etc/nginx/sites-available/proxy.conf
