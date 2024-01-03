@@ -15,6 +15,6 @@
        
        :sources:
            :my-org:
-               :remote: 'https://github.com/IluaRoot/puppet-master-repo.git'
+               :remote: 'https://github.com/IluaRoot/devops-hometasks.git'
                :basedir: '/etc/puppetlabs/code/environments'
       dest: "/etc/puppetlabs/r10k/r10k.yaml"

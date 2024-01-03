@@ -3,12 +3,15 @@
   hosts: master
   become: true
   tasks:
-  - name: Allow 8140 port
+  - name: Open ports
     firewalld:
-      port: 8140/tcp
+      port: "{{ item }}"
       permanent: true
       immediate: true
       state: enabled
+    loop:
+      - 8140/tcp
+      - 80/tcp
   - name: Restart firewalld
     service:
       name: firewalld
@@ -47,6 +50,15 @@
   serial: 1
   become: true
   tasks:
+  - name: Open ports
+    firewalld:
+      port: "{{ item }}"
+      permanent: true
+      immediate: true
+      state: enabled
+    loop:
+      - 8140/tcp
+      - 80/tcp
   -  name: Install puppet agent
      yum:
        name: "{{ item }}"
