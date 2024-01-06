@@ -27,9 +27,8 @@
       path: /etc/puppetlabs/r10k
       state: directory
       mode: '0755'
-#
+
 # install role, conf role  
-#
   - include_role:
       name: install_role
   - include_role:
@@ -52,13 +51,14 @@
   tasks:
   - name: Open ports
     firewalld:
-      port: "{{ item }}"
+      port: 80/tcp
       permanent: true
       immediate: true
       state: enabled
-    loop:
-      - 8140/tcp
-      - 80/tcp
+  - name: Restart firewalld
+    service:
+      name: firewalld
+      state: restarted
   -  name: Install puppet agent
      yum:
        name: "{{ item }}"

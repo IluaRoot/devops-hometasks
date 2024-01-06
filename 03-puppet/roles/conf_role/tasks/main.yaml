@@ -1,6 +1,13 @@
   - name: Lower mem requirements for puppetserver
-    shell:
-      cmd: sed -i 's/Xms2g/Xms512m/;s/Xmx2g/Xmx512m/' /etc/sysconfig/puppetserver
+    replace:
+      path: /etc/sysconfig/puppetserver
+      regexp: 'Xms2g'
+      replace: 'Xms512m'
+  - name: Lower mem requirements for puppetserver x2
+    replace:
+      path: /etc/sysconfig/puppetserver
+      regexp: 'Xmx2g'
+      replace: 'Xmx512m'
   - name: Setting up puppet.conf
     lineinfile:
       line: |
@@ -15,6 +22,6 @@
        
        :sources:
            :my-org:
-               :remote: 'https://github.com/IluaRoot/devops-hometasks.git'
+               :remote: 'https://github.com/IluaRoot/puppet-master-repo.git'
                :basedir: '/etc/puppetlabs/code/environments'
       dest: "/etc/puppetlabs/r10k/r10k.yaml"

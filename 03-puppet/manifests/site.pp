@@ -1,25 +1,74 @@
-class install_nginx {
-  package { 'nginx':
+node 'slave1.puppet' {
+    package { 'nginx':
     ensure => installed,
     name => 'nginx',
     provider => 'yum',
     }
-}
-class reload_nginx {
-  service { 'nginx':
+    -> file { '/vagrant/conf.f/static.conf':
+       ensure => 'present',
+       source => '/vagrant/conf.f/static.conf',
+       path => "/etc/nginx/conf.d/static.conf",
+  }
+    -> file { ['/var/www', '/var/www/static']:
+       ensure => 'directory',
+       owner => 'nginx',
+       group => 'nginx',
+       mode => '0755',
+    }
+    
+    -> file { '/vagrant/index.html':
+       ensure => 'present',
+       source => '/vagrant/index.html',
+       path => "/var/www/static/index.html",
+    }
+    -> file { '/etc/nginx/nginx.conf':
+       ensure => present,
+       }
+    -> exec { 'Disable default site': 
+       command => "/bin/sed -i \'s/listen/#listen/g\' /etc/nginx/nginx.conf"
+       }
+    -> service { 'nginx':
     ensure => running,
     enable => true,
   }
 }
-class firewall {
-  
-
-}
-
-node 'slave1.puppet' {
-  include install_nginx, reload_nginx
-}
 
 node 'slave2.puppet' {
-  include install_nginx, reload_nginx
+    package { 'nginx':
+    ensure => installed,
+    name => 'nginx',
+    provider => 'yum',
+    }
+    package { 'php-fpm':
+    ensure => installed,
+    name => 'php-fpm',
+    provider => 'yum',
+    }
+      -> file { '/vagrant/conf.f/dynamic.conf':
+       ensure => 'present',
+       source => '/vagrant/conf.f/dynamic.conf',
+       path => "/etc/nginx/conf.d/dynamic.conf",
+  }
+    -> file { ['/var/www', '/var/www/dynamic']:
+       ensure => 'directory',
+       owner => 'nginx',
+       group => 'nginx',
+       mode => '0755',
+    }
+    
+    -> file { '/vagrant/index.php':
+       ensure => 'present',
+       source => '/vagrant/index.php',
+       path => "/var/www/dynamic/index.php",
+    }
+    -> file { '/etc/nginx/nginx.conf':
+       ensure => present,
+       }
+    -> exec { 'Disable default site': 
+       command => "/bin/sed -i \'s/listen/#listen/g\' /etc/nginx/nginx.conf" 
+      }
+    -> service { 'nginx':
+    ensure => running,
+    enable => true,
+  }
 }
