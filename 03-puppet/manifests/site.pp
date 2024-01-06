@@ -18,7 +18,9 @@ class firewall {
 
 node 'slave1.puppet' {
   include install_nginx, reload_nginx
-    -> file { 'Copy conf file slave1':
+}
+node 'slave1.puppet' {
+       file { 'Copy conf file slave1':
        ensure => file,
        source => 'puppet:///conf.f/static.conf',
        path => "/etc/nginx/conf.d/",
