@@ -14,10 +14,3 @@
   roles:
     - firewall_role
     - agents_role
-
-
-
-#- name: All hosts setup
-#  become: true
-#  hosts: all
-#  tasks:
