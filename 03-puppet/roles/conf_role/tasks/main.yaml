@@ -1,27 +1,8 @@
-  - name: Lower mem requirements for puppetserver
-    replace:
-      path: /etc/sysconfig/puppetserver
-      regexp: 'Xms2g'
-      replace: 'Xms512m'
-  - name: Lower mem requirements for puppetserver x2
-    replace:
-      path: /etc/sysconfig/puppetserver
-      regexp: 'Xmx2g'
-      replace: 'Xmx512m'
-  - name: Setting up puppet.conf
-    lineinfile:
-      line: |
-       autosign = true
-       [agent]
-       server = master.puppet
-      path: /etc/puppetlabs/puppet/puppet.conf
-  - name: r10k conf
-    copy:
-      content: |
-       :cachedir: '/var/cache/r10k'
-       
-       :sources:
-           :my-org:
-               :remote: 'https://github.com/IluaRoot/puppet-master-repo.git'
-               :basedir: '/etc/puppetlabs/code/environments'
-      dest: "/etc/puppetlabs/r10k/r10k.yaml"
+  - name: Setting up puppet service
+    import_tasks: 
+      file: dec_mem.yaml
+
+  - name: Setting up puppet conf
+    import_tasks:
+      file: pup_r10k.yaml
+

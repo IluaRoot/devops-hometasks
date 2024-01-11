@@ -1,0 +1,8 @@
+  -  name: Install puppet agent
+     vars:
+       install_list: ["puppet-agent"]
+     yum:
+       name: "{{ item }}"
+       state: present
+     loop: 
+      - "{{ install_list }}"

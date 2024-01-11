@@ -1,0 +1,8 @@
+  - name: Install puppet server and tools
+    vars:
+      install_list: ["puppetserver", "git"]
+    yum:
+      name: "{{ item }}"
+      state: present
+    loop:
+      - "{{ install_list }}"

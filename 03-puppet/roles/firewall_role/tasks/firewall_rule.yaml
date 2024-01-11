@@ -1,0 +1,12 @@
+  - name: Open ports
+    firewalld:
+      port: "{{ item }}"
+      permanent: true
+      immediate: true
+      state: enabled
+    loop:
+      - 8140/tcp
+      - 80/tcp
+    notify: 
+     - Restart firewalld
+

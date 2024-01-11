@@ -1,0 +1,11 @@
+  - name: Lower mem requirements for puppetserver
+    replace:
+      path: /etc/sysconfig/puppetserver
+      regexp: 'Xms2g'
+      replace: 'Xms512m'
+
+  - name: Lower mem requirements for puppetserver x2
+    replace:
+      path: /etc/sysconfig/puppetserver
+      regexp: 'Xmx2g'
+      replace: 'Xmx512m'

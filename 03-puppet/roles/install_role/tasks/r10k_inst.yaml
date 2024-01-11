@@ -1,0 +1,5 @@
+  - name: faraday install
+    shell: /opt/puppetlabs/puppet/bin/gem install faraday -v 2.8.1
+    
+  - name: r10k install
+    shell: /opt/puppetlabs/puppet/bin/gem install r10k

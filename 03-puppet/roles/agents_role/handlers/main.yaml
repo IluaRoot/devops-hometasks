@@ -1,0 +1,5 @@
+  - name: Start puppet agent service
+    service:
+      name: puppet
+      enabled: true
+      state: started

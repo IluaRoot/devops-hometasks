@@ -1,0 +1,14 @@
+  - name: Edit hosts file
+    lineinfile:
+      line: |
+       192.168.59.4 master.puppet
+      path: /etc/hosts
+
+  - name: Setup puppet agents
+    lineinfile:
+      line: |
+       [agent]
+       server = master.puppet
+       runinterval = 1m
+      path: /etc/puppetlabs/puppet/puppet.conf
+    notify: Start puppet agent service

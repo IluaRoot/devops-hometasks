@@ -1,0 +1,7 @@
+ - name: Agents install
+   import_tasks:
+     file: agents_install.yaml
+
+ - name: Agents settings up
+   import_tasks:
+      file: agents_setup.yaml

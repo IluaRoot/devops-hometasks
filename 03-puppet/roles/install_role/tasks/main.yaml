@@ -1,2 +1,13 @@
-  - name: r10k install
-    shell: /opt/puppetlabs/puppet/bin/gem install r10k
+   - name: Create r10k dir
+     file:
+       path: /etc/puppetlabs/r10k
+       state: directory
+       mode: '0755'
+
+   - name: Install puppet server
+     import_tasks:
+       file: pup_srv.yaml
+
+   - name: Install r10k
+     import_tasks:
+       file: r10k_inst.yaml

@@ -2,86 +2,20 @@
 - name: 3rd homework playbook
   hosts: master
   become: true
-  tasks:
-  - name: Open ports
-    firewalld:
-      port: "{{ item }}"
-      permanent: true
-      immediate: true
-      state: enabled
-    loop:
-      - 8140/tcp
-      - 80/tcp
-  - name: Restart firewalld
-    service:
-      name: firewalld
-      state: restarted
-  - name: Install puppet server and tools
-    yum:
-      name: "{{ item }}"
-      state: present
-    loop:
-      - "{{ install_list }}"
-  - name: Create r10k dir
-    file:
-      path: /etc/puppetlabs/r10k
-      state: directory
-      mode: '0755'
-
-# install role, conf role  
-  - include_role:
-      name: install_role
-  - include_role:
-      name: conf_role
-
-  - name: Enabling service puppetserver
-    service:
-      name: puppetserver
-      enabled: true
-      state: started
-
-  - name: Run r10k deploy
-    shell:
-      cmd: /opt/puppetlabs/puppet/bin/r10k deploy environment -p
+  roles:
+    - firewall_role
+    - install_role
+    - conf_role
 
 - name: Slaves setup
   hosts: slaves
   serial: 1
   become: true
-  tasks:
-  - name: Open ports
-    firewalld:
-      port: 80/tcp
-      permanent: true
-      immediate: true
-      state: enabled
-  - name: Restart firewalld
-    service:
-      name: firewalld
-      state: restarted
-  -  name: Install puppet agent
-     yum:
-       name: "{{ item }}"
-       state: present
-     loop: 
-      - "{{ install_list }}"
-  - name: Edit hosts file
-    lineinfile:
-      line: |
-       192.168.59.4 master.puppet
-      path: /etc/hosts
-  - name: Setup puppet agents
-    lineinfile:
-      line: |
-       [agent]
-       server = master.puppet
-       runinterval = 1m
-      path: /etc/puppetlabs/puppet/puppet.conf
-  - name: Start puppet agent service
-    service:
-      name: puppet
-      enabled: true
-      state: started
+  roles:
+    - firewall_role
+    - agents_role
+
+
 
 #- name: All hosts setup
 #  become: true
