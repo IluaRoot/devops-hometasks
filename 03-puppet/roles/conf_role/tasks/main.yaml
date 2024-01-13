@@ -2,7 +2,10 @@
     import_tasks: 
       file: dec_mem.yaml
 
-  - name: Setting up puppet conf
+  - name: Setting up puppet r10k conf
     import_tasks:
       file: pup_r10k.yaml
-
+      
+  - name: r10 cron setup
+    import_tasks:
+      file: r10k_cron_setup.yaml

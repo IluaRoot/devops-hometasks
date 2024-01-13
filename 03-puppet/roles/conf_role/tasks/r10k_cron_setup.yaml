@@ -1,0 +1,9 @@
+  - name: r10k cron setup
+    copy:
+      content: |
+       # Run the hourly jobs
+       SHELL=/bin/bash
+       PATH=/sbin:/bin:/usr/sbin:/usr/bin
+       MAILTO=root
+       */5 * * * * root /opt/puppetlabs/puppet/bin/r10k deploy environment -p
+      dest: "/etc/cron.d/r10kcron"

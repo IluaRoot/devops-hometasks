@@ -3,3 +3,9 @@
       name: puppetserver
       enabled: true
       state: started
+
+  - name: Start puppet agent service on master
+    service:
+      name: puppet
+      enabled: true
+      state: started

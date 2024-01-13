@@ -1,0 +1,7 @@
+  - name: Download puppet
+    import_tasks:
+      file: get_deb.yaml
+
+  - name: Install puppet-agent
+    import_tasks:
+      file: install_pup.yaml

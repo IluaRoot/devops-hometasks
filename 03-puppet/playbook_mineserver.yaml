@@ -1,0 +1,7 @@
+---
+- name: Minecraft server puppet agent setting up
+  hosts: mineserver
+  become: true
+  roles:
+   - debianpup_install   
+   - debianpup_setup

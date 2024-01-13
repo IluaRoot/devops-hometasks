@@ -1,0 +1,9 @@
+  - name: Install deb puppet agent package from internet
+    apt:
+      deb: https://apt.puppet.com/puppet7-release-bullseye.deb
+      
+  - name: Install puppet agent
+    apt:
+      update_cache: yes
+      name: puppet-agent
+      state: present

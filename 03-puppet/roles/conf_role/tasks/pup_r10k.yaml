@@ -4,8 +4,16 @@
        autosign = true
        [agent]
        server = master.puppet
+       runinterval = 1m
       path: /etc/puppetlabs/puppet/puppet.conf
     notify: Enabling service puppetserver
+
+  - name: Setting up puppet.conf for puppet agent
+    lineinfile:
+      line: |
+       runinterval = 1m
+      path: /etc/puppetlabs/puppet/puppet.conf
+    notify: Start puppet agent service on master 
 
   - name: Setting up r10k conf
     copy:

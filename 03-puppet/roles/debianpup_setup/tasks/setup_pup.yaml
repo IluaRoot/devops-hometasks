@@ -1,0 +1,14 @@
+  - name: Setup hosts
+    copy:
+      content: |
+         192.168.59.4 master.puppet
+      dest: "/etc/hosts"
+  
+  - name: Setup puppet.conf
+    copy:
+      content: |
+         [agent]
+         server = master.puppet
+         runinterval = 1m
+      dest: "/etc/puppetlabs/puppet/puppet.conf"
+      

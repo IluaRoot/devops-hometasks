@@ -1,0 +1,3 @@
+ - name: Setup puppet agent
+   import_tasks:
+     file: setup_pup.yaml
