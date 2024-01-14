@@ -7,5 +7,5 @@
   - name: Start puppet agent service on master
     service:
       name: puppet
-      enabled: true
+      enabled: true 
       state: started
