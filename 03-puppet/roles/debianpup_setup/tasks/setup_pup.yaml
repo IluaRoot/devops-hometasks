@@ -11,4 +11,4 @@
          server = master.puppet
          runinterval = 1m
       dest: "/etc/puppetlabs/puppet/puppet.conf"
-      
+    notify: Enabling service puppetserver

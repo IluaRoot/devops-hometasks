@@ -1,5 +1,5 @@
   - name: Enabling service puppetserver
     service:
-      name: puppetserver
+      name: puppet
       enabled: true
       state: started
