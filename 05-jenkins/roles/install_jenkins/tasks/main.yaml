@@ -1,0 +1,11 @@
+ - name: Install Tools
+   import_tasks:
+     file: preinstall_packages.yaml
+
+ - name: Keys and Repo add
+   import_tasks:
+     file: install_key_n_repo.yaml
+
+ - name: Install Jenkins
+   import_tasks:
+     file: install_jenkins.yaml

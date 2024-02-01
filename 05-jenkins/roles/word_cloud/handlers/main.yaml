@@ -1,0 +1,5 @@
+ - name: Reload WordCloud
+   service:
+     name: wordcloud
+     state: restarted
+     enabled: true

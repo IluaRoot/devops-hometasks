@@ -1,0 +1,8 @@
+ - name: Copy CasC Config File
+   template:
+     dest: "/var/lib/jenkins/casc_config/jenkins.yaml"
+     src: jenkins.yaml.j2
+     owner: jenkins
+     group: jenkins
+     mode: '0644'
+     remote_src: false

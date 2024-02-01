@@ -1,0 +1,11 @@
+ - name: Add key for Jenkins repo
+   get_url:
+     url: https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
+     dest: /usr/share/keyrings/jenkins-keyring.asc
+     mode: '0644'
+     force: true
+
+ - name: Add repo for Jenkins installation
+   apt_repository:
+     repo: deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable binary/
+     state: present

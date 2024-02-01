@@ -1,0 +1,11 @@
+ - name: Copy Groovy Files
+   copy:
+     src: "/vagrant/groovy/{{ item }}"
+     dest: "/var/lib/jenkins/init.groovy.d/{{ item }}"
+     owner: jenkins
+     group: jenkins
+     mode: '0744'
+     remote_src: yes
+   loop:
+     - 01-admin-user.groovy
+     - 02-plugins.groovy

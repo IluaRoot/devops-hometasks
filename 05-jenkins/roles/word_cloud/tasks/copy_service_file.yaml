@@ -1,0 +1,5 @@
+ - name: Copy Service file 
+   copy:
+     src: /vagrant/service/wordcloud.service
+     dest: /opt/wordcloud/wordcloud.service
+     remote_src: true

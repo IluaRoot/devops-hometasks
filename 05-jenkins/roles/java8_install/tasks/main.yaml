@@ -1,0 +1,3 @@
+- name: Java for Nexus installation
+  import_tasks:
+    file: install_java.yaml

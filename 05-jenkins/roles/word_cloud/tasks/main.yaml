@@ -1,0 +1,11 @@
+ - name: Making Word Cloud Service Directory
+   import_tasks:
+     file: make_dir.yaml
+
+ - name: Copy service file to Word Cloud Directory
+   import_tasks:
+     file: copy_service_file.yaml
+
+ - name: Link copied service file to /etc/systemd/system directory
+   import_tasks:
+     file: link_service_file.yaml

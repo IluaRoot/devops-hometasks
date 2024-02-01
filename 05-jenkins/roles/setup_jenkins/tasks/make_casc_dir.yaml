@@ -1,0 +1,8 @@
+ - name: Making directory for casc scripts
+   file:
+     path: /var/lib/jenkins/casc_config
+     state: directory
+     recurse: true
+     owner: jenkins
+     group: jenkins
+     mode: '0755'

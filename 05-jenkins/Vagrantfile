@@ -1,0 +1,139 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# All Vagrant configuration is done below. The "2" in Vagrant.configure
+# configures the configuration version (we support older styles for
+# backwards compatibility). Please don't change it unless you know what
+# you're doing.
+
+JENKINS_IP = "192.168.60.4"
+NEXUS_IP = "192.168.60.5"
+STAGING_IP = "192.168.60.6"
+PRODUCTION_IP = "192.168.60.7"
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "generic/debian11"
+  
+  config.vm.provider "virtualbox" do |vb|
+    vb.memory = 1024
+    vb.cpus = 1
+  end
+
+  config.vm.define "jenkins.vm" do |jen|
+    jen.vm.synced_folder ".", "/vagrant", disabled: false
+    jen.vm.network "private_network", ip: JENKINS_IP
+    jen.vm.hostname = "jenkins.vm"
+    jen.vm.provision :shell, inline: <<-SHELL
+      apt update
+      apt install -y sshpass jq
+    SHELL
+
+  jen.vm.provision "ansible" do |ansible|
+    ansible.limit = "jenkins.vm"
+    ansible.playbook = "./jenkins_playbook.yaml"
+    ansible.groups = {
+      "all:vars" => {
+        "jenkins_ip": JENKINS_IP,
+        "nexus_ip": NEXUS_IP,
+        "staging_ip": STAGING_IP,
+        "production_ip": PRODUCTION_IP,
+        "ansible_connection": "ssh",
+        "ansible_user": "vagrant",
+        "ansible_password": "vagrant",
+        "ansible_ssh_common_args": "-o StrictHostKeyChecking=no",
+       }
+    }
+    ansible.host_vars = {
+        "jenkins" => {"jenkins_host": JENKINS_IP},
+    }
+  end
+ end
+
+ config.vm.define "nexus.vm" do |nex|
+    nex.vm.box = "generic/debian10"
+    nex.vm.network "private_network", ip: NEXUS_IP
+    nex.vm.hostname = "nexus.vm"
+
+    config.vm.provider "virtualbox" do |vb|
+      vb.memory = 2048
+      vb.cpus = 2
+    end
+
+    nex.vm.provision :shell, inline: <<-SHELL
+      apt update
+      apt install -y sshpass
+    SHELL
+
+  nex.vm.provision "ansible" do |ansible|
+    ansible.limit = "nexus.vm"
+    ansible.playbook = "./nexus_playbook.yaml"
+    ansible.galaxy_role_file = "./requirements.yaml"
+    ansible.groups = {
+      "all:vars" => {
+        "nexus_ip": NEXUS_IP,
+        "ansible_connection": "ssh",
+        "ansible_user": "vagrant",
+        "ansible_password": "vagrant",
+        "ansible_ssh_common_args": "-o StrictHostKeyChecking=no",
+       }
+    }
+    ansible.host_vars = {
+        "nexus" => {"nexus_host": NEXUS_IP},
+    }
+  end
+ end
+
+ config.vm.define "staging.vm" do |stag|
+    stag.vm.synced_folder ".", "/vagrant", disabled: false
+    stag.vm.network "private_network", ip: STAGING_IP
+    stag.vm.hostname = "staging.vm"
+    stag.vm.provision :shell, inline: <<-SHELL
+      apt update
+      apt install -y sshpass
+    SHELL
+
+  stag.vm.provision "ansible" do |ansible|
+    ansible.limit = "staging.vm"
+    ansible.playbook = "./staging_playbook.yaml"
+    ansible.groups = {
+      "all:vars" => {
+        "staging_ip": STAGING_IP,
+        "ansible_connection": "ssh",
+        "ansible_user": "vagrant",
+        "ansible_password": "vagrant",
+        "ansible_ssh_common_args": "-o StrictHostKeyChecking=no",
+       }
+    }
+    ansible.host_vars = {
+        "staging" => {"staging_host": STAGING_IP},
+    }
+  end
+ end  
+
+ config.vm.define "production.vm" do |prod|
+  prod.vm.synced_folder ".", "/vagrant", disabled: false
+  prod.vm.network "private_network", ip: PRODUCTION_IP
+  prod.vm.hostname = "production.vm"
+  prod.vm.provision :shell, inline: <<-SHELL
+    apt update
+    apt install -y sshpass
+  SHELL
+
+  prod.vm.provision "ansible" do |ansible|
+    ansible.limit = "production.vm"
+    ansible.playbook = "./production_playbook.yaml"
+    ansible.groups = {
+      "all:vars" => {
+        "production_ip": PRODUCTION_IP,
+        "ansible_connection": "ssh",
+        "ansible_user": "vagrant",
+        "ansible_password": "vagrant",
+        "ansible_ssh_common_args": "-o StrictHostKeyChecking=no",
+       }
+    }
+    ansible.host_vars = {
+        "production" => {"production_host": PRODUCTION_IP},
+    }
+  end
+ end  
+end

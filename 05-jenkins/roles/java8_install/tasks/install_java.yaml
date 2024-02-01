@@ -1,0 +1,15 @@
+- name: Add key
+  apt_key:
+    url: https://packages.adoptium.net/artifactory/api/gpg/key/public
+
+- name: Add repository
+  apt_repository:
+    repo: deb https://packages.adoptium.net/artifactory/deb buster main
+    state: present
+    update_cache: true
+  
+- name: Install Java
+  apt:
+    update_cache: true
+    name: temurin-8-jdk
+    state: present

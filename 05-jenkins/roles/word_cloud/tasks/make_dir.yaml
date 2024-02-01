@@ -1,0 +1,7 @@
+ - name: Making WordCloud Service Directory
+   file:
+     path: /opt/wordcloud
+     state: directory
+     owner: vagrant
+     group: vagrant
+     mode: '0766'

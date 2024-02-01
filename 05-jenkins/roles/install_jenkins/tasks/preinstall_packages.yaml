@@ -1,0 +1,7 @@
+ - name: Install JRE and Build-essential
+   apt: 
+     update_cache: true
+     pkg:
+     - build-essential 
+     - default-jre
+     state: present 

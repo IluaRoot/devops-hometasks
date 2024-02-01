@@ -1,0 +1,8 @@
+ - name: Copy SSH Sites Jenkins Config Info
+   template:
+     src: org.jvnet.hudson.plugins.SSHBuildWrapper.xml.j2
+     dest: "/var/lib/jenkins/org.jvnet.hudson.plugins.SSHBuildWrapper.xml"
+     owner: jenkins
+     group: jenkins
+     mode: '0644'
+     remote_src: false

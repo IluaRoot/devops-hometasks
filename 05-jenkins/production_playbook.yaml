@@ -1,0 +1,6 @@
+---
+- name: Production Playbook
+  hosts: production.vm
+  become: true
+  roles:
+    - word_cloud

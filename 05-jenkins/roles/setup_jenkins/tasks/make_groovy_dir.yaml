@@ -1,0 +1,8 @@
+ - name: Making directory for groovy scripts
+   file:
+     path: /var/lib/jenkins/init.groovy.d
+     state: directory
+     recurse: true
+     owner: jenkins
+     group: jenkins
+     mode: '0755'

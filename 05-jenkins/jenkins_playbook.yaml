@@ -1,0 +1,8 @@
+---
+- name: Jenkins setup playbook
+  hosts: jenkins.vm
+  become: true
+  roles:
+     - install_jenkins
+     - setup_jenkins
+     - jenkins_jobs

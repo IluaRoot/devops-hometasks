@@ -1,0 +1,16 @@
+ - name: Create Derictory for job
+   file:
+     path: /var/lib/jenkins/jobs/homeworkbuild
+     state: directory
+     owner: jenkins
+     group: jenkins
+     mode: '0755'
+
+ - name: Copy XML job file
+   template:
+     dest: "/var/lib/jenkins/jobs/homeworkbuild/config.xml"
+     src: config.xml.j2
+     owner: jenkins
+     group: jenkins
+     mode: '0644'
+     remote_src: false

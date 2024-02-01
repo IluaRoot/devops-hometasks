@@ -1,0 +1,23 @@
+ - name: Create Groovy Directory
+   import_tasks:
+     file: make_groovy_dir.yaml
+
+ - name: Create Casc Directory
+   import_tasks:
+     file: make_casc_dir.yaml
+
+ - name: JCasC copy file
+   import_tasks:
+     file: casc_copy.yaml
+
+ - name: Copy Groovy Files
+   import_tasks:
+     file: copy_groovy_files.yaml
+
+ - name: Copy SSH Sites Info 
+   import_tasks:
+     file: copy_ssh_sites_info.yaml
+  
+ - name: Setting up Jenkins Java Environment 
+   import_tasks:
+     file: java_env_setup.yaml

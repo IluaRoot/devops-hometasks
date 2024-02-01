@@ -1,0 +1,6 @@
+ - name: Reload Jenkins
+   ignore_errors: true
+   service:
+     name: jenkins
+     daemon_reload: true
+     state: restarted

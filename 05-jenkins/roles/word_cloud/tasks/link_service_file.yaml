@@ -1,0 +1,5 @@
+ - name: Copy Service file 
+   file:
+     src: /opt/wordcloud/wordcloud.service
+     dest: /etc/systemd/system/wordcloud.service
+     state: link

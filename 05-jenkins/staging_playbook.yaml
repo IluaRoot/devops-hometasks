@@ -1,0 +1,6 @@
+---
+- name: Staging Playbook
+  hosts: staging.vm
+  become: true
+  roles:
+    - word_cloud
