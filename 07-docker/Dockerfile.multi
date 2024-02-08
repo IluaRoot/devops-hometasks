@@ -8,6 +8,6 @@ RUN mkdir -p $DIRPATH && git clone https://github.com/Fenikks/word-cloud-generat
 
 FROM alpine:latest
 
-COPY --from=stage1 --chown=alpine:alpine /opt/wordcloud/word-cloud-generator /opt/wordcloud/word-cloud-generator
+COPY --from=stage1 /opt/wordcloud/word-cloud-generator /opt/wordcloud/word-cloud-generator
 
 ENTRYPOINT [ "/opt/wordcloud/word-cloud-generator" ]
