@@ -1,4 +1,3 @@
-#!/bin/bash
+#!/bin/sh
 
-docker run --rm -d --name hometask-static -p 8081:80 hometask-image
-docker exec hometask-static mv /var/www/dynamic/index.html_off /var/www/dynamic/index.html
+docker run -v ./files:/var/www/dynamic/ -d --name hometask-static  -p 8081:80 hometask-image
