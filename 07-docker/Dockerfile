@@ -28,18 +28,6 @@ RUN <<EOF cat > /var/www/dynamic/index.php
 </html>
 EOF
 
-#RUN <<EOF cat > /var/www/dynamic/index.html_dis
-#<html>
-#  <head>
-#    <title>Success!</title>
-#  </head>
-# <body>
-#    You Vagrantfile is fine if you can see this message.
-#  </body>
-#</html>
-#EOF
-
-
 RUN chown -R www-data:www-data /var/www/dynamic && chmod 0755 /var/www/dynamic && chmod 0744 /var/www/dynamic/index.php &&\
 a2dissite 000-default && a2ensite 001-dynamic
 CMD ["/usr/sbin/apachectl", "-D", "FOREGROUND"]
