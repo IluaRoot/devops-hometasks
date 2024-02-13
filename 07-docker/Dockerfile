@@ -8,5 +8,5 @@ COPY files/index.php /var/www/dynamic/
 
 RUN chown -R www-data:www-data /var/www/dynamic
 
-RUN a2dissite 000-default && a2ensite 001-dynamic && service apache2 start
+RUN a2dissite 000-default && a2ensite 001-dynamic
 CMD ["/usr/sbin/apachectl", "-D", "FOREGROUND"]
