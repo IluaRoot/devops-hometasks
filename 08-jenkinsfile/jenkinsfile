@@ -23,11 +23,13 @@ pipeline {
           }                        
       }
       stage ("Unit-tests") {
+          tools {
+              go 'go 1.16'
+          }
           steps {
               sh '''
               make lint && make test
               ''' 
-
           }
       }
       stage ('Build word-cloud') {
@@ -66,45 +68,46 @@ pipeline {
               )     
           }
       }
-      stage ('Deploy on staging'){
-          steps {
-              withCredentials([usernamePassword(credentialsId: "$CREDS", passwordVariable: 'NEXUS_DOWNLOAD_PASSWORD', usernameVariable: 'NEXUS_DOWNLOAD_USER')]){
-                sh '''
-                 SSHPASS='vagrant' sshpass -e ssh -o StrictHostKeyChecking=no vagrant@$STAGING_IP "sudo systemctl stop wordcloud"
-                 SSHPASS='vagrant' sshpass -e ssh -o StrictHostKeyChecking=no vagrant@$STAGING_IP "curl -X GET -u $NEXUS_DOWNLOAD_USER:$NEXUS_DOWNLOAD_PASSWORD "http://$NEXUS_IP:8081/repository/$NEXUS_REPO/1/word-cloud-generator/${BUILD_NUMBER}/word-cloud-generator-${BUILD_NUMBER}.gz" -o /opt/wordcloud/word-cloud-generator.gz"
-                 SSHPASS='vagrant' sshpass -e ssh -o StrictHostKeyChecking=no vagrant@$STAGING_IP "gunzip -f /opt/wordcloud/word-cloud-generator.gz"
-                 SSHPASS='vagrant' sshpass -e ssh -o StrictHostKeyChecking=no vagrant@$STAGING_IP "chmod +x /opt/wordcloud/word-cloud-generator"
-                 SSHPASS='vagrant' sshpass -e ssh -o StrictHostKeyChecking=no vagrant@$STAGING_IP "sudo systemctl start wordcloud"
-                ''' 
-              } 
-          }
+      stage ('Upload to staging'){
+               steps {
+                withCredentials([usernamePassword(credentialsId: "$CREDS", passwordVariable: 'NEXUS_DOWNLOAD_PASSWORD', usernameVariable: 'NEXUS_DOWNLOAD_USER')]){
+                  sh '''
+                  SSHPASS='vagrant' sshpass -e ssh -o StrictHostKeyChecking=no vagrant@$STAGING_IP "sudo systemctl stop wordcloud"
+                  SSHPASS='vagrant' sshpass -e ssh -o StrictHostKeyChecking=no vagrant@$STAGING_IP "curl -X GET -u $NEXUS_DOWNLOAD_USER:$NEXUS_DOWNLOAD_PASSWORD "http://$NEXUS_IP:8081/repository/$NEXUS_REPO/1/word-cloud-generator/${BUILD_NUMBER}/word-cloud-generator-${BUILD_NUMBER}.gz" -o /opt/wordcloud/word-cloud-generator.gz"
+                  SSHPASS='vagrant' sshpass -e ssh -o StrictHostKeyChecking=no vagrant@$STAGING_IP "gunzip -f /opt/wordcloud/word-cloud-generator.gz"
+                  SSHPASS='vagrant' sshpass -e ssh -o StrictHostKeyChecking=no vagrant@$STAGING_IP "chmod +x /opt/wordcloud/word-cloud-generator"
+                  SSHPASS='vagrant' sshpass -e ssh -o StrictHostKeyChecking=no vagrant@$STAGING_IP "sudo systemctl start wordcloud"
+                  ''' 
+            } 
+        }
       }
       stage ('Integration tests'){
-        parallel {
-          stage ('Integration test 1'){
-          steps {
-              sh '''
-                res=`curl -s -H "Content-Type: application/json" -d '{"text":"ths is a really really really important thing this is"}' http://$STAGING_IP:8888/api | jq '. | length'`
-                if [ "7" != "$res" ]; then
-                  exit 99
-                fi
-              '''
+          parallel {
+              stage ('Integration test 1'){
+              steps {
+                  sh '''
+                    res=`curl -s -H "Content-Type: application/json" -d '{"text":"ths is a really really really important thing this is"}' http://$STAGING_IP:8888/api | jq '. | length'`
+                    if [ "7" != "$res" ]; then
+                      exit 99
+                    fi
+                  '''
+              }
+            }
+            stage ('Integration test 2'){
+              steps {
+                  sh '''
+                    res=`curl -s -H "Content-Type: application/json" -d '{"text":"ths is a really really really important thing this is"}' http://$STAGING_IP:8888/api | jq '. | length'`
+                    if [ "7" != "$res" ]; then
+                      exit 99
+                    fi
+                  '''
+              }
+            }
           }
-         }
-         stage ('Integration test 2'){
-          steps {
-              sh '''
-                res=`curl -s -H "Content-Type: application/json" -d '{"text":"ths is a really really really important thing this is"}' http://$STAGING_IP:8888/api | jq '. | length'`
-                if [ "7" != "$res" ]; then
-                  exit 99
-                fi
-              '''
-          }
-        }
-       }
       }
-      stage ('Upload to production'){
-          steps {
+   }
+          post {
+          success {
               withCredentials([usernamePassword(credentialsId: "$CREDS", passwordVariable: 'NEXUS_DOWNLOAD_PASSWORD', usernameVariable: 'NEXUS_DOWNLOAD_USER')]){
                 sh '''
                   SSHPASS='vagrant' sshpass -e ssh -o StrictHostKeyChecking=no vagrant@$PRODUCTION_IP "sudo systemctl stop wordcloud"
@@ -116,5 +119,4 @@ pipeline {
               } 
           }
       }
-   }
  }
