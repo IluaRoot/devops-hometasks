@@ -22,14 +22,20 @@ pipeline {
               )
           }                        
       }
+      stage ("Unit-tests") {
+          steps {
+              sh '''
+              make lint && make test
+              ''' 
+
+          }
+      }
       stage ('Build word-cloud') {
           tools {
               go 'go 1.16'
           }
           steps {
               sh '''
-                echo "Cheking files"
-                make lint && make test
                 echo "{ \\"version\\": \\"1.$BUILD_NUMBER\\" }" >static/version
 
                 GOOS=linux GOARCH=amd64 go build -o ./artifacts/word-cloud-generator -v .
