@@ -1,0 +1,14 @@
+FROM ubuntu:latest
+
+ARG DEBIAN_FRONTEND=noninteractive
+
+WORKDIR /tmp
+
+COPY ./ans/nexus_playbook.yaml ./ans/requirements.yaml ./ans/requirements.txt /tmp/
+
+RUN apt update && apt install -y --no-install-recommends rsync python3 python3-pip ansible openjdk-8-jdk pgp git && apt clean
+RUN pip install -r requirements.txt
+RUN ansible-galaxy install -r requirements.yaml --roles-path . && ansible-playbook -i localhost nexus_playbook.yaml -c docker  
+
+CMD ["/opt/nexus-latest/bin/nexus", "run"]
+

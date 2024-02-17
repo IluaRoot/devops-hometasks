@@ -1,0 +1,22 @@
+version: '3'
+services:
+  jenkins_docker:
+     build:
+       context: .
+       dockerfile: Dockerfile.jenkins
+       args:
+         container: Jenkins Container
+     hostname: jenkins.con
+     ports:
+       - "80:8080"
+       - "50000:50000"
+  nexus_docker:
+     build:
+       context: .
+       dockerfile: Dockerfile.nexus
+       args:
+         container: Nexus Container
+     hostname: nexus.con
+     command: /opt/nexus-latest/bin/nexus run
+     ports:
+       - "81:8081"

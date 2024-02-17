@@ -1,6 +1,6 @@
 # 08 hometask - jenkjins pipeline
 
-List of using Jenkins plugin's: 
+List of using Jenkins plugins: 
 
 - docker-plugin ssh-slaves golang ws-cleanup
 - credentials credentials-binding locale git

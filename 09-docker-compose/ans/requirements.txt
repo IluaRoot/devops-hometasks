@@ -1,0 +1,7 @@
+ansible
+ansible-lint
+flake8
+flake8-docstrings
+jmespath
+pytest-testinfra
+yamllint
