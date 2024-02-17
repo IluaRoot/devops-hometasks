@@ -36,7 +36,7 @@ pipeline {
           }
           steps {
               sh '''
-                echo "{ \\"version\\": \\"1.$BUILD_NUMBER\\" }" &gt;static/version
+                echo "{ \\"version\\": \\"1.$BUILD_NUMBER\\" }" > static/version
 
                 GOOS=linux GOARCH=amd64 go build -o ./artifacts/word-cloud-generator -v .
 
