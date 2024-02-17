@@ -1,0 +1,70 @@
+pipeline {
+  agent any
+  options {
+      timestamps()
+  }
+  environment {
+      NEXUS_HOST="nexus.con"
+      NEXUS_REPO="word-cloud-build"
+      CREDS="nx-uploader"
+  }
+  stages {
+      stage ("Get source code") {
+          steps {
+              cleanWs()
+              git(
+                branch: 'master',
+                changelog: false,
+                poll: false,
+                url: 'https://github.com/IluaRoot/word-cloud-generator.git'
+              )
+          }                        
+      }
+       stage ("Unit-tests") {
+          tools {
+              go 'go 1.16'
+          }
+          steps {
+              sh '''
+              make lint && make test
+              ''' 
+          }
+      }
+      stage ('Build word-cloud') {
+          tools {
+              go 'go 1.16'
+          }
+          steps {
+              sh '''
+                echo "{ \\"version\\": \\"1.$BUILD_NUMBER\\" }" &gt;static/version
+
+                GOOS=linux GOARCH=amd64 go build -o ./artifacts/word-cloud-generator -v .
+
+                md5sum artifacts/word-cloud-generator
+                gzip artifacts/word-cloud-generator
+
+                ls -l artifacts/
+            '''    
+
+              nexusArtifactUploader (
+                   artifacts: [
+                       [ 
+                          artifactId: 'word-cloud-generator',
+                          classifier: '',
+                          file: 'artifacts/word-cloud-generator.gz',
+                          type: 'gz'
+                       ]
+
+                   ],
+                   credentialsId: "$CREDS",
+                   groupId: '1',
+                   nexusUrl: "$NEXUS_HOST:8081/",
+                   nexusVersion: 'nexus3',
+                   protocol: 'http',
+                   repository: "$NEXUS_REPO",
+                   version: '$BUILD_NUMBER'
+              )     
+          }
+      }
+   }
+ }
