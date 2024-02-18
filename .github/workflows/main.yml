@@ -23,7 +23,7 @@ jobs:
       - name: upload docker image to ghcr.io
         run: |
           echo $GITHUB_REPOSITORY_OWNER
-          docker push ghcr.io/$GITHUB_REPOSITORY_OWNER/wcg:latest
+          docker push ghcr.io/iluarootwcg/wcg:latest
         env:
           GITHUB_REPOSITORY_OWNER: ${{ vars.GITHUB_REPOSITORY_OWNER }}
          
