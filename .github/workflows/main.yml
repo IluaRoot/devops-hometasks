@@ -24,7 +24,7 @@ jobs:
         run: |
           export CR_PAT=$ACTION_TOKEN
           echo $CR_PAT | docker login ghcr.io -u IluaRoot --password-stdin
-          docker push ghcr.io/wcg/wcg:latest
+          docker push ghcr.io/iluaroot/wcg:latest
         env:
           GITHUB_REPOSITORY_OWNER: ${{ vars.GITHUB_REPOSITORY_OWNER }}
           ACTION_TOKEN: ${{ secrets.ACTION_TOKEN }}
