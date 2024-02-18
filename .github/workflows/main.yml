@@ -22,7 +22,7 @@ jobs:
           docker build -t wcg:latest -f Dockerfile.multi .
       - name: upload docker image to ghcr.io
         run: |
-          echo $ACTION_TOKEN | docker login ghcr.io -u $GITHUB_REPOSITORY_OWNER --password-stdin
+          echo $CR_PAT | docker login ghcr.io -u $GITHUB_REPOSITORY_OWNER --password-stdin
           docker push ghcr.io/wcg/wcg:latest
         env:
           GITHUB_REPOSITORY_OWNER: ${{ vars.GITHUB_REPOSITORY_OWNER }}
