@@ -14,9 +14,11 @@ jobs:
         with:
           repository: IluaRoot/devops-hometasks
 
-      - name: alpha run
+      - name: build docker container
         run: |
           ls -la
-          pwd
           cd 07-docker
+          pwd
+          docker build -t wcg:latest -f Dockerfile.multi .
+         
 
