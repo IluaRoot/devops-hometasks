@@ -19,7 +19,7 @@ jobs:
           ls -la
           cd 07-docker
           pwd
-          docker build -t wcg:latest -f Dockerfile.multi .
+          docker build -t wcg:latest -f Dockerfile.multi . --tag ghcr.io/IluaRoot/wcg:latest
       - name: upload docker image to ghcr.io
         run: |
           export CR_PAT=$ACTION_TOKEN
