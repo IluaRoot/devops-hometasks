@@ -16,7 +16,7 @@ jobs:
 
       - name: build docker container
         run: |
-          echo $GITHUB_REPOSITORY_OWNER
+          echo $GITHUB_REPOSITORY_NAME
           ls -la
           cd 07-docker
           pwd
