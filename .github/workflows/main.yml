@@ -1,0 +1,18 @@
+name: wcg build and upload
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: setlf-hosted
+
+    steps:
+      - name: "get Dockerfile.multi from repo"
+        uses: actions/checkout@v3
+        with:
+          repository: IluaRoot/devops-hometasks
+
+      - name: alpha run
+        run: ls -la
