@@ -22,9 +22,10 @@ jobs:
           docker build -t wcg:latest -f Dockerfile.multi .
       - name: upload docker image to ghcr.io
         run: |
-          echo $secrets.ACTION_TOKEN | docker login ghcr.io -u IluaRoot --password-stdin
+          export CR_PAT=$ACTION_TOKEN
+          echo $CR_PAT | docker login ghcr.io -u IluaRoot --password-stdin
           docker push ghcr.io/wcg/wcg:latest
         env:
           GITHUB_REPOSITORY_OWNER: ${{ vars.GITHUB_REPOSITORY_OWNER }}
-         
+          ACTION_TOKEN: ${{ secrets.ACTION_TOKEN }}
 
