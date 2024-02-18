@@ -19,7 +19,9 @@ jobs:
           ls -la
           cd 07-docker
           pwd
-          docker build -t wcg:latest -f Dockerfile.multi . --tag ghcr.io/iluaroot/wcg:latest
+          docker build -t wcg:$GITHUB_SHA -f Dockerfile.multi . --tag ghcr.io/iluaroot/wcg:latest
+        env:
+          GITHUB_SHA: ${{ GITHUB_SHA }}
       - name: upload docker image to ghcr.io
         run: |
           export CR_PAT=$ACTION_TOKEN
@@ -28,4 +30,3 @@ jobs:
         env:
           GITHUB_REPOSITORY_OWNER: ${{ vars.GITHUB_REPOSITORY_OWNER }}
           ACTION_TOKEN: ${{ secrets.ACTION_TOKEN }}
-
