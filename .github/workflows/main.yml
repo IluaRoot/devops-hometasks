@@ -16,3 +16,5 @@ jobs:
 
       - name: alpha run
         run: ls -la
+        run: pwd
+        run: cd 07-docker
