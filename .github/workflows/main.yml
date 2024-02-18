@@ -12,7 +12,7 @@ jobs:
       - name: "get Dockerfile.multi from repo"
         uses: actions/checkout@v3
         with:
-          repository: '{GITHUB_REPOSITORY_OWNER}' 
+          repository: ${{ vars.GITHUB_REPOSITORY }} 
 
       - name: build docker container
         run: |
