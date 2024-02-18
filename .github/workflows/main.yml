@@ -12,11 +12,10 @@ jobs:
       - name: "get Dockerfile.multi from repo"
         uses: actions/checkout@v3
         with:
-          repository: IluaRoot/devops-hometasks
+          repository: $GITHUB_REPOSITORY_OWNER/devops-hometasks
 
       - name: build docker container
         run: |
-          echo $GITHUB_REPOSITORY_NAME
           ls -la
           cd 07-docker
           pwd
