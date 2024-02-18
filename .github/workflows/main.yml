@@ -15,6 +15,8 @@ jobs:
           repository: IluaRoot/devops-hometasks
 
       - name: alpha run
-        run: ls -la
-        run: pwd
-        run: cd 07-docker
+        run: |
+          ls -la
+          pwd
+          cd 07-docker
+
