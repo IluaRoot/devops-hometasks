@@ -6,7 +6,7 @@ on:
 
 jobs:
   build:
-    runs-on: setlf-hosted
+    runs-on: self-hosted
 
     steps:
       - name: "get Dockerfile.multi from repo"
