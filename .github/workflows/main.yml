@@ -20,5 +20,7 @@ jobs:
           cd 07-docker
           pwd
           docker build -t wcg:latest -f Dockerfile.multi .
+      - name: upload docker image to ghcr.io
+        run: docker push ghcr.io/${{ vars.GITHUB_REPOSITORY_OWNER }}/wcg:latest 
          
 
