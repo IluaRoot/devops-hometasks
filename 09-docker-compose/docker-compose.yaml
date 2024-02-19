@@ -7,6 +7,7 @@ services:
        args:
          container: Jenkins Container
      hostname: jenkins.con
+     command: java -Djenkins.install.runSetupWizard=false -Dcasc.jenkins.config=/var/jenkins_home/casc_configs -jar /usr/share/jenkins/jenkins.war
      ports:
        - "80:8080"
        - "50000:50000"
