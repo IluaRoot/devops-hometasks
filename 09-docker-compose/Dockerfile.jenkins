@@ -12,4 +12,4 @@ COPY ./jendir/jenkins.yaml /var/jenkins_home/casc_configs/
 
 RUN apt-get update && apt-get install -y sshpass make gcc jq
 
-CMD java -Djenkins.install.runSetupWizard=false -Dcasc.jenkins.config=/var/jenkins_home/casc_configs -jar /usr/share/jenkins/jenkins.war
+#CMD java -Djenkins.install.runSetupWizard=false -Dcasc.jenkins.config=/var/jenkins_home/casc_configs -jar /usr/share/jenkins/jenkins.war
