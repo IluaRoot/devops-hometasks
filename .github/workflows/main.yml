@@ -17,7 +17,7 @@ jobs:
       - id: lower
         uses: ASzc/change-string-case-action@v6
         with:
-          string: ${{ GITHUB_REPOSITORY_OWNER }}
+          string: ${{ github.repository_owner }}
       - name: build docker container
         run: |
           ls -la
