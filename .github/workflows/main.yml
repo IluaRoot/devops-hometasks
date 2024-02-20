@@ -19,10 +19,10 @@ jobs:
           ls -la
           cd 07-docker
           pwd
-          docker build -t wcg:${{ github.sha }} -f Dockerfile.multi . --tag ghcr.io/${{ github.repository_owner.lowercase }}/wcg:latest
+          docker build -t wcg:$GITHUB_SHA -f Dockerfile.multi . --tag ghcr.io/$GITHUB_REPOSITORY_OWNER/wcg:latest
         env:
-          GITHUB_SHA: ${{ vars.GITHUB_SHA }}
-          GITHUB_REPOSITORY_OWNER: ${{ vars.GITHUB_REPOSITORY_OWNER.lowercase }}
+          GITHUB_SHA: ${{ github.sha }}
+          GITHUB_REPOSITORY_OWNER: ${{ github.repository_owner.lowercase }}
       - name: upload docker image to ghcr.io
         run: |
           export CR_PAT=$ACTION_TOKEN
