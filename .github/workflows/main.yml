@@ -14,14 +14,15 @@ jobs:
         with:
           repository: IluaRoot/devops-hometasks 
 
-      - name: build docker container
+      - name: lower
         uses: ASzc/change-string-case-action@v6
         with:
           string: $GITHUB_REPOSITORY_OWNER
+      - name: build docker container
         run: |
           ls -la
           cd 07-docker
-          echo ${{ steps.string.outputs.lowercase }}
+          echo ${{ steps.lower.outputs.lowercase }}
         #  pwd
         #  docker build -t wcg:$GITHUB_SHA -f Dockerfile.multi . --tag ghcr.io/$GITHUB_REPOSITORY_OWNER/wcg:latest
         env:
