@@ -14,10 +14,10 @@ jobs:
         with:
           repository: IluaRoot/devops-hometasks 
 
-      - name: lower
+      - id: lower
         uses: ASzc/change-string-case-action@v6
         with:
-          string: $GITHUB_REPOSITORY_OWNER
+          string: ${{ GITHUB_REPOSITORY_OWNER }}
       - name: build docker container
         run: |
           ls -la
