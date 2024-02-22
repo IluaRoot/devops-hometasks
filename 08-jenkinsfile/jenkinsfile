@@ -73,7 +73,7 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: "$CREDS", passwordVariable: 'NEXUS_DOWNLOAD_PASSWORD', usernameVariable: 'NEXUS_DOWNLOAD_USER')]){
                   sh '''
                   SSHPASS='vagrant' sshpass -e ssh -o StrictHostKeyChecking=no vagrant@$STAGING_IP "sudo systemctl stop wordcloud"
-                  SSHPASS='vagrant' sshpass -e ssh -o StrictHostKeyChecking=no vagrant@$STAGING_IP "curl -X GET -u $NEXUS_DOWNLOAD_USER:$NEXUS_DOWNLOAD_PASSWORD "http://$NEXUS_IP:8081/repository/$NEXUS_REPO/1/word-cloud-generator/${BUILD_NUMBER}/word-cloud-generator-${BUILD_NUMBER}.gz" -o /opt/wordcloud/word-cloud-generator.gz"
+                  SSHPASS='vagrant' sshpass -e ssh -o StrictHostKeyChecking=no vagrant@$STAGING_IP "curl -X GET -u $NEXUS_DOWNLOAD_USER:$NEXUS_DOWNLOAD_PASSWORD "http://$NEXUS_IP:8081/repository/$NEXUS_REPO/1/word-cloud-generator/${BUILD_NUMBER}/word-cloud-generator-${BUILD_NUMBER}.gz" -o /opt/word-cloud-generator.gz"
                   SSHPASS='vagrant' sshpass -e ssh -o StrictHostKeyChecking=no vagrant@$STAGING_IP "gunzip -f /opt/word-cloud-generator.gz"
                   SSHPASS='vagrant' sshpass -e ssh -o StrictHostKeyChecking=no vagrant@$STAGING_IP "chmod +x /opt/word-cloud-generator"
                   SSHPASS='vagrant' sshpass -e ssh -o StrictHostKeyChecking=no vagrant@$STAGING_IP "sudo systemctl start wordcloud"
@@ -111,7 +111,7 @@ pipeline {
               withCredentials([usernamePassword(credentialsId: "$CREDS", passwordVariable: 'NEXUS_DOWNLOAD_PASSWORD', usernameVariable: 'NEXUS_DOWNLOAD_USER')]){
                 sh '''
                   SSHPASS='vagrant' sshpass -e ssh -o StrictHostKeyChecking=no vagrant@$PRODUCTION_IP "sudo systemctl stop wordcloud"
-                  SSHPASS='vagrant' sshpass -e ssh -o StrictHostKeyChecking=no vagrant@$PRODUCTION_IP "curl -X GET -u $NEXUS_DOWNLOAD_USER:$NEXUS_DOWNLOAD_PASSWORD http://$NEXUS_IP:8081/repository/$NEXUS_REPO/1/word-cloud-generator/${BUILD_NUMBER}/word-cloud-generator-${BUILD_NUMBER}.gz -o /opt/wordcloud/word-cloud-generator.gz"
+                  SSHPASS='vagrant' sshpass -e ssh -o StrictHostKeyChecking=no vagrant@$PRODUCTION_IP "curl -X GET -u $NEXUS_DOWNLOAD_USER:$NEXUS_DOWNLOAD_PASSWORD http://$NEXUS_IP:8081/repository/$NEXUS_REPO/1/word-cloud-generator/${BUILD_NUMBER}/word-cloud-generator-${BUILD_NUMBER}.gz -o /opt/word-cloud-generator.gz"
                   SSHPASS='vagrant' sshpass -e ssh -o StrictHostKeyChecking=no vagrant@$PRODUCTION_IP "gunzip -f /opt/word-cloud-generator.gz"
                   SSHPASS='vagrant' sshpass -e ssh -o StrictHostKeyChecking=no vagrant@$PRODUCTION_IP "chmod +x /opt/word-cloud-generator"
                   SSHPASS='vagrant' sshpass -e ssh -o StrictHostKeyChecking=no vagrant@$PRODUCTION_IP "sudo systemctl start wordcloud"
