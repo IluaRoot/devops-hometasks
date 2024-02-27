@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wcg-app-deploy
+spec:
+  selector:
+    matchLabels:
+      app: wcg-app
+  replicas: 2
+  template:
+    metadata:
+      labels: 
+        app: wcg-app
+    spec:
+      containers:
+      - name: wcg-app
+        image: ghcr.io/iluaroot/wcg:latest
+        ports:
+        - containerPort: 8888
