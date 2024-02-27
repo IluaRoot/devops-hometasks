@@ -29,7 +29,8 @@ jobs:
         run: |
           export CR_PAT=$ACTION_TOKEN
           echo $CR_PAT | docker login ghcr.io -u $GITHUB_REPOSITORY_OWNER --password-stdin
-          docker push ghcr.io/${{ steps.lower.outputs.lowercase }}/wcg:latest
+          docker push ghcr.io/${{ steps.lower.outputs.lowercase }}/wcg:$GITHUB_SHA
         env:
           GITHUB_REPOSITORY_OWNER: ${{ github.repository_owner }}
           ACTION_TOKEN: ${{ secrets.ACTION_TOKEN }}
+          GITHUB_SHA: ${{ github.sha }}
