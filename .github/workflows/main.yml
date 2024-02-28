@@ -22,7 +22,8 @@ jobs:
         run: |
           ls -la
           cd 07-docker          
-          docker build -t wcg:latest -f Dockerfile.multi . --tag ghcr.io/${{ steps.lower.outputs.lowercase }}/wcg:$GITHUB_SHA
+          docker build -f Dockerfile.multi . --tag ghcr.io/${{ steps.lower.outputs.lowercase }}/wcg:$GITHUB_SHA \
+          --tag ghcr.io/${{ steps.lower.outputs.lowercase }}/wcg:latest
         env:
           GITHUB_SHA: ${{ github.sha }}
       - name: upload docker image to ghcr.io
