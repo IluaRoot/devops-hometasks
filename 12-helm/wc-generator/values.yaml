@@ -1,0 +1,24 @@
+replicas: 2
+
+container:
+  name: wcg-app
+  label: wcg-app
+  port: 8888
+
+service:
+  name: wcgportv2
+  protocol: TCP
+  port: 80
+
+ingress:
+  name: wcg-ingress2
+  host: wcg-app-local.io
+  path: /v2
+  pathType: Prefix
+
+specs:
+  type: ClusterIP
+
+image:
+  repository: ghcr.io/iluaroot/wcg
+  tag: latest
