@@ -2,6 +2,7 @@ apiVersion: v2
 name: wcg-app-deploy-v2
 description: word cloud generator packed by iluaroot
 type: application
-version: 0.0.2
+version: 0.0.3
+icon: https://upload.wikimedia.org/wikipedia/commons/5/58/Cloud_1_outline.svg
 appVersion: "1.0"
 
