@@ -6,6 +6,8 @@ variable "github_token" { type = string }
 variable "repo_var" { type = string }
 variable "git_branch" { type = string }
 variable "commit_msg" { type = string }
+variable "commit_auth" { type = string }
+variable "commit_mail" { type = string }
 
 variable "container_name" {
   type    = string
