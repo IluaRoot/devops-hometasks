@@ -3,7 +3,7 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>3 Column Layout</title>
+	<title>Ilua L Github pages</title>
 	<style type="text/css">
 
 		/* Layout */
@@ -119,22 +119,11 @@
 		
 	</style>
 	
-	<script type="text/javascript">
-		/* =============================
-		This script generates sample text for the body content. 
-		You can remove this script and any reference to it. 
-		 ============================= */
-		var bodyText=["The smaller your reality, the more convinced you are that you know everything.", "If the facts don't fit the theory, change the facts.", "The past has no power over the present moment.", "This, too, will pass.", "</p><p>You will not be punished for your anger, you will be punished by your anger.", "Peace comes from within. Do not seek it without.", "<h3>Heading</h3><p>The most important moment of your life is now. The most important person in your life is the one you are with now, and the most important activity in your life is the one you are involved with now."]
-		function generateText(sentenceCount){
-			for (var i=0; i<sentenceCount; i++)
-			document.write(bodyText[Math.floor(Math.random()*7)]+" ")
-		}
-	</script>	
 </head>
 
 <body>
 
-	<header id="header"><p>Header...</p></header>
+	<header id="header"><p>This page made to publish my final IT academy project</p></header>
 
 	<div id="container">
 
@@ -142,7 +131,7 @@
 			<article>
 			
 				<h1>Heading</h1>
-				<p><script>generateText(50)</script></p>
+				<p></p>
 			
 			</article>								
 		</main>
@@ -156,26 +145,11 @@
 				<li><a href="#">Link 4</a></li>
 				<li><a href="#">Link 5</a></li>
 			</ul>
-			<h3>Left heading</h3>
-			<ul>
-				<li><a href="#">Link 1</a></li>
-				<li><a href="#">Link 2</a></li>
-				<li><a href="#">Link 3</a></li>
-				<li><a href="#">Link 4</a></li>
-				<li><a href="#">Link 5</a></li>
-			</ul>
-
 		</nav>
-
-		<div id="right" class="column">
-			<h3>Right heading</h3>
-			<p><script>generateText(1)</script></p>
-		</div>
-
 	</div>
 
 	<div id="footer-wrapper">
-		<footer id="footer"><p>Footer...</p></footer>
+		<footer id="footer"><p></p></footer>
 	</div>
 
 </body>
