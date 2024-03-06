@@ -5,6 +5,7 @@ variable "service_target_port" { type = number }
 variable "github_token" { type = string }
 variable "repo_var" { type = string }
 variable "git_branch" { type = string }
+variable "commit_msg" { type = string }
 
 variable "container_name" {
   type    = string
