@@ -11,7 +11,7 @@ resource "github_repository_file" "name" {
   branch     = var.git_branch
   file       = "13-terraform/${each.value}"
   content    = file("${each.value}")
-  commit_message = "13-terraform push hometask"
+  commit_message = var.commit_msg
 
   overwrite_on_create = true
 }
