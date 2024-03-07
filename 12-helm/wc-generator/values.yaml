@@ -13,8 +13,8 @@ service:
 ingress:
   name: wcg-ingress2
   host: wcg-app-local.io
-  path: /v2
-  pathType: Prefix
+  path: /
+  pathType: Exact
 
 specs:
   type: ClusterIP
