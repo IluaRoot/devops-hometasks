@@ -44,7 +44,7 @@ plugins:
    - .sass-cache/
    - .jekyll-cache/
    - gemfiles/
-   - Gemfile
+   #- Gemfile
    - Gemfile.lock
    - node_modules/
    - vendor/bundle/
