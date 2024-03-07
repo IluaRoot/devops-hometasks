@@ -10,7 +10,7 @@ resource "kubernetes_ingress_v1" "wcg-ingress-name" {
       host = var.ingress_hostname
       http {
         path {
-          path = "/tfapp"
+          path = "/"
           backend {
             service {
               name = var.service_name
