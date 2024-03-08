@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: wcg-deploy-argo
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: 'https://iluaroot.github.io/devops-hometasks/'
+    targetRevision: 0.0.6
+    chart: wcg-app-deploy-v2
+
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: argocd
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
