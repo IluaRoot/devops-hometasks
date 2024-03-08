@@ -15,16 +15,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: adding branch tag
-        id: tag_add     
         uses: mathieudutour/github-tag-action@v6.1
         with:
           github_token: ${{ env.ACTION_TOKEN }}
-      #- name: Create release
-        #uses: ncipollo/release-action@v1
-        #with:
-        #  tag: ${{ steps.tag_add.outputs.new_tag }}${{ env.GITHUB_TAG }}
-        #  name: Tagging branch release
-        #  body: ${{ steps.tag_add.outputs.changelog }}
+      - name: create tag
+        uses: rickstaa/action-create-tag@v1
+        id: tag_add
+        with:
+          tag: v${{ env.GITHUB_TAG }}
 
   build:
     runs-on: ubuntu-22.04
