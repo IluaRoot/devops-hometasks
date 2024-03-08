@@ -23,6 +23,7 @@ jobs:
           tag: v${{ env.GITHUB_TAG }}
 
   build:
+    needs: githubtag
     runs-on: ubuntu-22.04
 
     steps:
@@ -36,6 +37,7 @@ jobs:
         uses: ASzc/change-string-case-action@v6
         with:
           string: ${{ github.repository_owner }}
+
       - name: Login to ghcr
         uses: docker/login-action@v3
         with:
@@ -53,7 +55,8 @@ jobs:
             ghcr.io/${{ steps.lower.outputs.lowercase }}/wcg:latest
             ghcr.io/${{ steps.lower.outputs.lowercase }}/wcg:${{ env.GITHUB_TAG }}
 
-  helmCheckPackage:
+  helmStuff:
+    needs: build
     runs-on: ubuntu-22.04
 
     steps:
@@ -62,14 +65,23 @@ jobs:
         with:
           repository: IluaRoot/devops-hometasks
           sparse-checkout: 12-helm/
-      - name: Helms install
+
+      - name: install helms package and helm lint
         run: |
           ls -l
           curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
           chmod 700 get_helm.sh
           ./get_helm.sh
           helm lint 12-helm/wc-generator
-#      - name: Helm lint and package
-#        run: |
-#          helm lint 12
+      - id: dns
+        uses: ASzc/change-string-case-action@v6
+        with:
+          string: ${{ github.repository_owner }}
+      - name: Helm package
+        run: |
+          sed -i "s/tag: latest/tag: ${{ env.GITHUB_TAG }}" 12-helm/wc-generator/values.yaml
+          cat 12-helm/wc-generator/values.yaml
+          helm package 12-helm/wc-generator
+          ls -la 
+
 
