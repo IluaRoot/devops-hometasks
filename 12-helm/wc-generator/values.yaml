@@ -21,4 +21,4 @@ specs:
 
 image:
   repository: ghcr.io/iluaroot/wcg
-  tag: latest
+  tag: 1.0.210
