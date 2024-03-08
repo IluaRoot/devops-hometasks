@@ -3,6 +3,11 @@ name: wcg build and upload
 on:
   push:
   workflow_dispatch:
+env:
+  GITHUB_TAG: ${{ github.run_number }}
+  ACTION_TOKEN: ${{ secrets.ACTION_TOKEN }}
+  GITHUB_REPOSITORY_OWNER: ${{ github.repository_owner }}
+  GITHUB_SHA: ${{ github.sha }}
 
 jobs:
   build:
@@ -12,27 +17,26 @@ jobs:
       - name: "get Dockerfile.multi from repo"
         uses: actions/checkout@v4
         with:
-          repository: IluaRoot/devops-hometasks 
+          repository: IluaRoot/devops-hometasks
+          sparse-checkout: 07-docker/Dockerfile.multi
 
       - id: lower
         uses: ASzc/change-string-case-action@v6
         with:
           string: ${{ github.repository_owner }}
+      - name: Login to ghcr
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: $GITHUB_REPOSITORY_OWNER
+          password: $ACTION_TOKEN
+
       - name: build docker container
-        run: |
-          ls -la
-          cd 07-docker          
-          docker build -f Dockerfile.multi . --tag ghcr.io/${{ steps.lower.outputs.lowercase }}/wcg:$GITHUB_SHA \
-          --tag ghcr.io/${{ steps.lower.outputs.lowercase }}/wcg:latest
-        env:
-          GITHUB_SHA: ${{ github.sha }}
-      - name: upload docker image to ghcr.io
-        run: |
-          export CR_PAT=$ACTION_TOKEN
-          echo $CR_PAT | docker login ghcr.io -u $GITHUB_REPOSITORY_OWNER --password-stdin
-          docker push ghcr.io/${{ steps.lower.outputs.lowercase }}/wcg:$GITHUB_SHA
-          docker push ghcr.io/${{ steps.lower.outputs.lowercase }}/wcg:latest
-        env:
-          GITHUB_REPOSITORY_OWNER: ${{ github.repository_owner }}
-          ACTION_TOKEN: ${{ secrets.ACTION_TOKEN }}
-          GITHUB_SHA: ${{ github.sha }}
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          platform: linux/amd64
+          tags: |
+            ghcr.io/${{ steps.lower.outputs.lowercase }}/wcg:$GITHUB_SHA
+            ghcr.io/${{ steps.lower.outputs.lowercase }}/wcg:latest
+            ghcr.io/${{ steps.lower.outputs.lowercase }}/wcg:$GITHUB_TAG
