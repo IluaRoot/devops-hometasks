@@ -18,11 +18,7 @@ jobs:
         uses: mathieudutour/github-tag-action@v6.1
         with:
           github_token: ${{ env.ACTION_TOKEN }}
-      - name: create tag
-        uses: rickstaa/action-create-tag@v1
-        id: tag_add
-        with:
-          tag: v${{ env.GITHUB_TAG }}
+
 
   build:
     runs-on: ubuntu-22.04
