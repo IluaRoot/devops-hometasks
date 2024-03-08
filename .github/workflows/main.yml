@@ -28,8 +28,8 @@ jobs:
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
-          username: $GITHUB_REPOSITORY_OWNER
-          password: $ACTION_TOKEN
+          username: ${{ env.GITHUB_REPOSITORY_OWNER}}
+          password: ${{ env.ACTION_TOKEN}}
 
       - name: build docker container
         uses: docker/build-push-action@v5
