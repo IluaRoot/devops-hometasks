@@ -35,6 +35,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: 07-docker/
+          push: true
           tags: |
             ghcr.io/${{ steps.lower.outputs.lowercase }}/wcg:${{ env.GITHUB_SHA }}
             ghcr.io/${{ steps.lower.outputs.lowercase }}/wcg:latest
