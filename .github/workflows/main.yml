@@ -34,7 +34,7 @@ jobs:
       - name: build docker container
         uses: docker/build-push-action@v5
         with:
-          context: .
+          context: 07-docker/
           tags: |
             ghcr.io/${{ steps.lower.outputs.lowercase }}/wcg:${{ env.GITHUB_SHA }}
             ghcr.io/${{ steps.lower.outputs.lowercase }}/wcg:latest
