@@ -37,6 +37,6 @@ jobs:
           context: .
           platform: linux/amd64
           tags: |
-            ghcr.io/${{ steps.lower.outputs.lowercase }}/wcg:$GITHUB_SHA
+            ghcr.io/${{ steps.lower.outputs.lowercase }}/wcg:${{ env.GITHUB_SHA }}
             ghcr.io/${{ steps.lower.outputs.lowercase }}/wcg:latest
-            ghcr.io/${{ steps.lower.outputs.lowercase }}/wcg:$GITHUB_TAG
+            ghcr.io/${{ steps.lower.outputs.lowercase }}/wcg:${{ env.GITHUB_TAG }}
