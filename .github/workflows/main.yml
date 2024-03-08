@@ -61,13 +61,14 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: IluaRoot/devops-hometasks
-          sparse-checkout: 12-heml/
+          sparse-checkout: 12-helm/
       - name: Helms install
         run: |
           ls -l
           curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
           chmod 700 get_helm.sh
           ./get_helm.sh
+          helm lint 12-helm/wc-generator
 #      - name: Helm lint and package
 #        run: |
 #          helm lint 12
