@@ -32,6 +32,10 @@ jobs:
         with:
           repository: IluaRoot/devops-hometasks
           sparse-checkout: 07-docker/Dockerfile.multi
+      - name: ls
+        run: |
+          pwd
+          ls -la
 
       - id: lower
         uses: ASzc/change-string-case-action@v6
