@@ -57,13 +57,18 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
-      - name: get helm from GH repository
+      - name: Get helm from GH repository
         uses: actions/checkout@v4
         with:
           repository: IluaRoot/devops-hometasks
           sparse-checkout: 12-heml/
-      - name: Helm lint
+      - name: Helms install
         run: |
-          sudo apt install -y helm
-          helm lint 12-helm/wc-generator
+          la -l
+          curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+          chmod 700 get_helm.sh
+          ./get_helm.sh
+#      - name: Helm lint and package
+#        run: |
+#          helm lint 12
 
