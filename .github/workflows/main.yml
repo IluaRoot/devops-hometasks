@@ -64,6 +64,6 @@ jobs:
           sparse-checkout: 12-heml/
       - name: Helm lint
         run: |
-          apt install -y helm
+          sudo apt install -y helm
           helm lint 12-helm/wc-generator
 
