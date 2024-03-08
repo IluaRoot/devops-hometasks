@@ -85,7 +85,7 @@ jobs:
       - name: Helm package
         run: |
           sed -i "s/tag: latest/tag: ${{ env.GITHUB_TAG }}/g" 12-helm/wc-generator/values.yaml
-          helm package 12-helm/wc-generator && mv *.tgz docs/ && cd docs && helm repo index ./ --url https://${{ steps.dns.outputs.lowercase }}/devops-hometasks
+          helm package 12-helm/wc-generator && mv *.tgz docs/ && cd docs && helm repo index ./ --url https://${{ steps.dns.outputs.lowercase }}.github.io/devops-hometasks
           
       - name: Git add and commit
         uses: EndBug/add-and-commit@v9
