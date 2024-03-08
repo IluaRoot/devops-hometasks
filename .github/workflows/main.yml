@@ -63,6 +63,7 @@ jobs:
           repository: IluaRoot/devops-hometasks
           sparse-checkout: 12-heml/
       - name: Helm lint
-        uses: WyriHaximus/github-action-helm3@v3
-        with:
-          exec: helm lint ./12-helm/wc-generator
+        run: |
+          apt install -y helm
+          helm lint 12-helm/wc-generator
+
