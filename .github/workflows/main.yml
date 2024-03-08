@@ -8,6 +8,7 @@ env:
   ACTION_TOKEN: ${{ secrets.ACTION_TOKEN }}
   GITHUB_REPOSITORY_OWNER: ${{ github.repository_owner }}
   GITHUB_SHA: ${{ github.sha }}
+  EMAIL_ADDRESS: theykilledteddybear@gmail.com
 
 jobs:
   githubtag:
@@ -75,15 +76,22 @@ jobs:
           chmod 700 get_helm.sh
           ./get_helm.sh
           helm lint 12-helm/wc-generator
+
       - id: dns
         uses: ASzc/change-string-case-action@v6
         with:
           string: ${{ github.repository_owner }}
+
       - name: Helm package
         run: |
           sed -i "s/tag: latest/tag: ${{ env.GITHUB_TAG }}/g" 12-helm/wc-generator/values.yaml
-          cat 12-helm/wc-generator/values.yaml
-          helm package 12-helm/wc-generator && mv *.tgz docs/
-          ls -la docs/
+          helm package 12-helm/wc-generator && mv *.tgz docs/ && cd docs && helm repo index ./ --url https://${{ steps.dns.outputs.lowercase }}/devops-hometasks
+          
+      - name: Git add and commit
+        uses: EndBug/add-and-commit@v9
+        with:
+          author_name: ${{ env.GITHUB_REPOSITORY_OWNER }}
+          author_email: ${{ env.EMAIL_ADDRESS }}
+          message: "Build and push helm package docker image is v${{ env.GITHUB_TAG }}"
 
 
