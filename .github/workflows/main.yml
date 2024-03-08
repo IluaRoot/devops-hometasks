@@ -64,7 +64,9 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: IluaRoot/devops-hometasks
-          sparse-checkout: 12-helm/
+          sparse-checkout: |
+            12-helm
+            docs
 
       - name: install helms package and helm lint
         run: |
@@ -81,7 +83,7 @@ jobs:
         run: |
           sed -i "s/tag: latest/tag: ${{ env.GITHUB_TAG }}/g" 12-helm/wc-generator/values.yaml
           cat 12-helm/wc-generator/values.yaml
-          helm package 12-helm/wc-generator
-          ls -la 
+          helm package 12-helm/wc-generator && mv *.tgz docs/
+          ls -la docs/
 
 
