@@ -52,7 +52,7 @@ jobs:
       - name: build docker container
         uses: docker/build-push-action@v5
         with:
-          context: 07-docker/Dockerfile.multi
+          context: /home/runner/work/devops-hometasks/devops-hometasks/07-docker/Dockerfile.multi
           push: true
           tags: |
             ghcr.io/${{ steps.lower.outputs.lowercase }}/wcg:${{ env.GITHUB_SHA }}
