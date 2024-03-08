@@ -48,7 +48,7 @@ jobs:
       - name: build docker container
         uses: docker/build-push-action@v5
         with:
-          context: /home/runner/work/devops-hometasks/devops-hometasks/07-docker/Dockerfile.multi
+          context: https://raw.githubusercontent.com/IluaRoot/devops-hometasks/main/07-docker/Dockerfile.multi
           push: true
           tags: |
             ghcr.io/${{ steps.lower.outputs.lowercase }}/wcg:${{ env.GITHUB_SHA }}
