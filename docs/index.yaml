@@ -3,13 +3,13 @@ entries:
   wcg-app-deploy-v2:
   - apiVersion: v2
     appVersion: "1.0"
-    created: "2024-03-08T12:34:36.370328179Z"
+    created: "2024-03-08T18:30:48.705802582Z"
     description: word cloud generator packed by iluaroot
-    digest: 1366d232711ad8c52e143b5312bf498351e0a8f1a541b4fe7cb3f38e6cdf525f
+    digest: 9b52963c70744bae781eb0d6374a0260a05781b771b3f0e837490e168b8a8db2
     icon: https://upload.wikimedia.org/wikipedia/commons/5/58/Cloud_1_outline.svg
     name: wcg-app-deploy-v2
     type: application
     urls:
     - https://iluaroot.github.io/devops-hometasks/wcg-app-deploy-v2-0.0.6.tgz
     version: 0.0.6
-generated: "2024-03-08T12:34:36.370008866Z"
+generated: "2024-03-08T18:30:48.705479878Z"
