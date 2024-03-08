@@ -4,12 +4,28 @@ on:
   push:
   workflow_dispatch:
 env:
-  GITHUB_TAG: ${{ github.run_number }}
+  GITHUB_TAG: 1.0.${{ github.run_number }}
   ACTION_TOKEN: ${{ secrets.ACTION_TOKEN }}
   GITHUB_REPOSITORY_OWNER: ${{ github.repository_owner }}
   GITHUB_SHA: ${{ github.sha }}
 
 jobs:
+  githubtag:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: adding branch tag
+        id: tag_add     
+        uses: mathieudutour/github-tag-action@v6.1
+        with:
+          github_token: ${{ env.ACTION_TOKEN }}
+      - name: Create release
+        uses: ncipollo/release-action@v1
+        with:
+          tag: ${{ steps.tag_add.outputs.new_tag }}${{ env.GITHUB_TAG }}
+          name: Tagging branch release
+          body: ${{ steps.tag_add.outputs.changelog }}
+
   build:
     runs-on: ubuntu-22.04
 
