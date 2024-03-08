@@ -52,3 +52,17 @@ jobs:
             ghcr.io/${{ steps.lower.outputs.lowercase }}/wcg:${{ env.GITHUB_SHA }}
             ghcr.io/${{ steps.lower.outputs.lowercase }}/wcg:latest
             ghcr.io/${{ steps.lower.outputs.lowercase }}/wcg:${{ env.GITHUB_TAG }}
+
+  helmCheckPackage:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: get helm from GH repository
+        uses: actions/checkout@v4
+        with:
+          repository: IluaRoot/devops-hometasks
+          sparse-checkout: 12-heml/
+      - name: Helm lint
+        uses: WyriHaximus/github-action-helm3@v3
+        with:
+          exec: helm lint ./12-helm/wc-generator
