@@ -18,7 +18,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: IluaRoot/devops-hometasks
-          sparse-checkout: 07-docker/Dockerfile.multi
+          sparse-checkout: 07-docker/
 
       - id: lower
         uses: ASzc/change-string-case-action@v6
@@ -34,8 +34,7 @@ jobs:
       - name: build docker container
         uses: docker/build-push-action@v5
         with:
-          context: 07-docker/Dockerfile.multi
-          platform: linux/amd64
+          context: .
           tags: |
             ghcr.io/${{ steps.lower.outputs.lowercase }}/wcg:${{ env.GITHUB_SHA }}
             ghcr.io/${{ steps.lower.outputs.lowercase }}/wcg:latest
