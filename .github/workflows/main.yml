@@ -31,7 +31,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: IluaRoot/devops-hometasks
-          sparse-checkout: 07-docker/
+          sparse-checkout: 07-docker/Dockerfile.multi
 
       - id: lower
         uses: ASzc/change-string-case-action@v6
@@ -79,7 +79,7 @@ jobs:
           string: ${{ github.repository_owner }}
       - name: Helm package
         run: |
-          sed -i "s/tag: latest/tag: ${{ env.GITHUB_TAG }}" 12-helm/wc-generator/values.yaml
+          sed -i "s/tag: latest/tag: ${{ env.GITHUB_TAG }}/g" 12-helm/wc-generator/values.yaml
           cat 12-helm/wc-generator/values.yaml
           helm package 12-helm/wc-generator
           ls -la 
