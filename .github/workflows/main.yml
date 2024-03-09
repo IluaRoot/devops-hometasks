@@ -1,10 +1,10 @@
-name: wcg build and upload
+name: CD/CI term project
 
 on:
   push:
   workflow_dispatch:
 env:
-  GITHUB_TAG: 1.0.${{ github.run_number }}
+  GITHUB_TAG: v1.0.${{ github.run_number }}
   ACTION_TOKEN: ${{ secrets.ACTION_TOKEN }}
   GITHUB_REPOSITORY_OWNER: ${{ github.repository_owner }}
   GITHUB_SHA: ${{ github.sha }}
@@ -21,7 +21,7 @@ jobs:
         uses: rickstaa/action-create-tag@v1
         id: tag_add
         with:
-          tag: v${{ env.GITHUB_TAG }}
+          tag: ${{ env.GITHUB_TAG }}
 
   build:
     needs: githubtag
@@ -94,5 +94,3 @@ jobs:
           author_name: ${{ env.GITHUB_REPOSITORY_OWNER }}
           author_email: ${{ env.EMAIL_ADDRESS }}
           message: "Build and push helm package docker image is v${{ env.GITHUB_TAG }}"
-
-

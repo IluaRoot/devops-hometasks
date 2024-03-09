@@ -2,3 +2,7 @@
 *.log
 05-jenkins/casc_files
 05-jenkins/xml
+*.tfstate
+*.hcl
+*.backup
+**/.terraform
