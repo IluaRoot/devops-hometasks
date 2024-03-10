@@ -93,4 +93,4 @@ jobs:
           add: 'docs'
           author_name: ${{ env.GITHUB_REPOSITORY_OWNER }}
           author_email: ${{ env.EMAIL_ADDRESS }}
-          message: "Build and push helm package docker image is v${{ env.GITHUB_TAG }}"
+          message: "Build and push helm package docker image is ${{ env.GITHUB_TAG }}"
